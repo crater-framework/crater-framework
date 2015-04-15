@@ -1,2 +1,1 @@
-# crater-framework
-Crater PHP Framework - User Guide
+# Crater PHP Framework - User Guide

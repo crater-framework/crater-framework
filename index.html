@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Crater PHP Framework - User Guide</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+        <link rel="stylesheet" href="style.css" media="screen">
+    </head>
+    <body  onload="prettyPrint()">
+        <div class="container-fluid">
+            <div class="header">
+                <h1>Crater PHP Framework</h1>
+                <h2><i>fast, lightweight and modular</i></h2>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="list-group">
+                        <p class="list-group-item active">Getting Started</p>
+                        <a href="#overview" class="list-group-item">Overview</a>
+                        <a href="#requirements" class="list-group-item">Requirements</a>
+                        <a href="#install" class="list-group-item">Install</a>
+                        <p class="list-group-item active">The Basics</p>
+                        <a href="#directory-structure" class="list-group-item">Framework Directory Structure</a>
+                        <a href="#config" class="list-group-item">Config</a>
+                        <a href="#" class="list-group-item">Routes</a>
+                        <a href="#" class="list-group-item">Controllers</a>
+                        <a href="#" class="list-group-item">Controllers</a>
+                        <a href="#" class="list-group-item">Models</a>
+                        <a href="#" class="list-group-item">Views</a>
+                        <a href="#" class="list-group-item">Templates</a>
+                        <a href="#" class="list-group-item">Errors</a>
+                        <a href="#" class="list-group-item">Languages</a>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="content">
+                        <h1 id="overview">Overview</h1>
+                        <p>Crater PHP Framework is an open source framework for developing web applications and services using PHP 5.3+. <br>Is addressed to small and medium projects
+                        Crater PHP Framework uses object-oriented code and utilises most of the new features of PHP 5.3.
+                        It offers a robust, high performance MVC implementation, an ORM that is simple to use, a migration tool, a CLI tool and other useful helpers.</p>
+
+                        <h1 id="requirements">Requirements</h1>
+                        <p>The framework requirements are limited.</p>
+                        <ul>
+                            <li>Apache Web Server or equivalent with mod rewrite support.</li>
+                            <li>PHP 5.3 or greater</li>
+                            <li>MySQL (optional)</li>
+                        </ul>
+
+                        <h1 id="install">Install</h1>
+                        <h3>Clone crater skeleton application repository</h3>
+<pre class="prettyprint linenums">
+$ cd /var/www
+$ git clone git@github.com:crater-framework/crater-skeleton-application.git crater
+$ cd crater
+$ git submodule init
+$ git submodule update
+</pre>
+                        <h3>Apache setup</h3>
+                        <p>To use Apache, setup a virtual host to point to the public/ directory of the project.</p>
+<pre class="prettyprint linenums">
+$ cd /etc/apache2/sites-available
+$ sudo vim crater.local
+</pre>
+                            <p>It should look something like below:</p>
+<pre class="prettyprint linenums">
+&lt;VirtualHost *:80&gt;
+   ServerName crater.local
+   DocumentRoot /var/www/crater/public
+
+   &lt;Directory /var/www/crater/public&gt;
+       AllowOverride All
+       Order allow,deny
+       Allow from all
+   &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+
+                        <p>Enable site</p>
+<pre class="prettyprint linenums">
+$ sudo a2ensite crater.local
+$ sudo /etc/init.d/apache2 reload
+</pre>
+                        <p>Finally, you will need to add an entry in your hosts file corresponding to the value you
+                            place in your ServerName directive. On *nix-like systems, this is usually /etc/hosts; on Windows,
+                            you'll typically find it in C:\WINDOWS\system32\drivers\etc.
+                            Regardless of the system, the entry will look like the following:</p>
+
+<pre class="prettyprint linenums">
+127.0.0.1   crater.local
+</pre>
+                        <h3>Checkpoint</h3>
+                        <p>At this point, you should be able to fire up your initial Zend Framework application.
+                            Point your browser to the server name you configured in the previous section;
+                            you should be able to see a welcome page at this point.<br>
+                            The website can then be accessed using <b>http://crater.localhost</b>
+                            <br><br>Restart Apache.
+                            <br><br>If you’ve done it correctly, it should look something like this:</p>
+                        <img src="/images/window.png" style="width: 90%;display: block;margin: 0 auto;">
+                        <p>&nbsp;</p>
+                        <h1 id="directory-structure">Framework Directory Structure</h1>
+<pre class="prettyprint linenums">
+&lt;project folder&gt;/
+    App/
+        Config/
+            global.php
+            local.php
+        Controllers/
+            Hello.php
+        Data/
+            Migrations/
+                1428642851_user_table.php
+                [...].php
+        Language/
+            en/
+                hello.php
+            fr/
+                hello.php
+            [...]/
+        Models/
+            Row/
+            Table/
+        Templates/
+            default.phtml
+        Views/
+            error/
+                404.phtml
+            hello/
+                index.phtml
+                [...].phtml
+
+        Bootstrap.php
+        errorlog.html
+    Core/
+    public/
+        static/
+            images/
+            css/
+            js/
+        .htaccess
+        index.php
+    scripts/
+    console.php
+</pre>
+                        <p>The following describes the use cases for each directory as listed.</p>
+                        <ul>
+                            <li><b>Config/</b>: The application-wide configuration directory.</li>
+                            <li><b>Controllers/, Models/ and Views/</b>: These directories serve as the default controller, model or view directories.</li>
+                            <li><b>Data/</b>: This directory provides a place to store application data that is volatile and possibly temporary. Examples of things in this directory are session files, cache files, sqlite databases, logs and indexes. Also here is <b>Migrations\</b> folder that contains information about the database schema.</li>
+                            <li><b>Language/</b>: This directory contains language folders/files</li>
+                            <li><b>Templates/</b>: This directory contains all application layouts. The location of this directory reflects that layouts are not on a 1-to-1 relationship with controllers and are independent of templates within Views/.</li>
+                            <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
+                            <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here, you will declare the application routes.</li>
+                            <li><b>errorlog.html</b>: Log file</li>
+                        </ul>
+
+                        <h1 id="config">Config</h1>
+                        <p>All application configuration is in <b>App/Config</b> folder.
+                            There you can have 2 files: <b>local.php</b> and <b>global.php</b><br>
+                            <b>global.php</b> file is overwritten by the file <b>local.php</b>
+                        </p>
+                        <p>A minimal configuration looks like this:</p>
+<pre class="prettyprint linenums">
+return array(
+    'language_code' => 'en',
+    'database' => array(
+        'type'      => 'mysql',
+        'host'      => '',
+        'name'      => '',
+        'user'      => '',
+        'password'  => '',
+    ),
+    'settings_table' => 'crt_settings',
+    'session_prefix' => 'crt_',
+    'default_timezone' => 'Europe/Bucharest',
+    'crater_error_handler'  => true,
+    'default_template'  => 'default',
+);
+</pre>
+                        <ul>
+                            <li><b>language_code</b>: Default language of application</li>
+                            <li><b>database</b>: Database connection parameters (necessary only if you use databases)</li>
+                            <li><b>settings_table</b>: Name of settings table (necessary only if you use databases)</li>
+                            <li><b>session_prefix</b>: The prefix is highly recommended, its very useful when sharing databases with other applications, to avoid conflicts.</li>
+                            <li><b>default_timezone</b>: The timezone to your local</li>
+                            <li><b>crater_error_handler</b>: enable/disable the custom error logger</li>
+                            <li><b>default_template</b>: Set the default template of application</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="footer">Crater PHP Framework 2015</p>
+                </div>
+            </div>
+        </div>
+
+        <!--Theme https://bootswatch.com/superhero/ -->
+
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    </body>
+</html>
+
