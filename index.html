@@ -7,10 +7,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="bootstrap.min.css" media="screen">
         <link rel="stylesheet" href="style.css" media="screen">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon">
     </head>
     <body  onload="prettyPrint()">
         <div class="container-fluid">
-            <div class="header">
+            <div class="header" id="top">
                 <h1>Crater PHP Framework</h1>
                 <h2><i>fast, lightweight and modular</i></h2>
             </div>
@@ -19,27 +21,38 @@
                     <div class="list-group">
                         <p class="list-group-item active">Getting Started</p>
                         <a href="#overview" class="list-group-item">Overview</a>
+                        <a href="#download" class="list-group-item">Download</a>
                         <a href="#requirements" class="list-group-item">Requirements</a>
                         <a href="#install" class="list-group-item">Install</a>
                         <p class="list-group-item active">The Basics</p>
-                        <a href="#directory-structure" class="list-group-item">Framework Directory Structure</a>
+                        <a href="#directory-structure" class="list-group-item">Directory Structure</a>
                         <a href="#config" class="list-group-item">Config</a>
-                        <a href="#" class="list-group-item">Routes</a>
-                        <a href="#" class="list-group-item">Controllers</a>
-                        <a href="#" class="list-group-item">Controllers</a>
-                        <a href="#" class="list-group-item">Models</a>
-                        <a href="#" class="list-group-item">Views</a>
+                        <a href="#routes" class="list-group-item">Routes</a>
+                        <a href="#controllers" class="list-group-item">Controllers</a>
+                        <a href="#models" class="list-group-item">Models</a>
+                        <a href="#views" class="list-group-item">Views</a>
                         <a href="#" class="list-group-item">Templates</a>
-                        <a href="#" class="list-group-item">Errors</a>
+                        <a href="#" class="list-group-item">Crater ORM</a>
+                        <a href="#" class="list-group-item">Crater CLI</a>
                         <a href="#" class="list-group-item">Languages</a>
+                        <a href="#" class="list-group-item">Errors</a>
                     </div>
                 </div>
                 <div class="col-md-10">
                     <div class="content">
+                        <a href="https://github.com/crater-framework/crater-php-framework" class="contribute"></a>
                         <h1 id="overview">Overview</h1>
-                        <p>Crater PHP Framework is an open source framework for developing web applications and services using PHP 5.3+. <br>Is addressed to small and medium projects
+                        <p>Crater PHP Framework is an open source framework for developing web applications
+                            and services using PHP 5.3+. <br>Is addressed to small and medium projects
                         Crater PHP Framework uses object-oriented code and utilises most of the new features of PHP 5.3.
-                        It offers a robust, high performance MVC implementation, an ORM that is simple to use, a migration tool, a CLI tool and other useful helpers.</p>
+                        It offers a robust, high performance MVC implementation,
+                            an ORM that is simple to use, a migration tool, a CLI tool and other useful helpers.</p>
+
+                        <h1 id="download">Download</h1>
+                        <p>If you want to download core files, instead using git clone, click on download button.</p>
+                        <a href="https://github.com/crater-framework/crater-php-framework" class="download"></a>
+                        <p>If you want Skeleton Application (hello world), you can download it from
+                            <a href="https://github.com/crater-framework/crater-skeleton-application">Crater Skeleton Apllication</a>.</p>
 
                         <h1 id="requirements">Requirements</h1>
                         <p>The framework requirements are limited.</p>
@@ -84,7 +97,8 @@ $ sudo a2ensite crater.local
 $ sudo /etc/init.d/apache2 reload
 </pre>
                         <p>Finally, you will need to add an entry in your hosts file corresponding to the value you
-                            place in your ServerName directive. On *nix-like systems, this is usually /etc/hosts; on Windows,
+                            place in your ServerName directive.
+                            On *nix-like systems, this is usually /etc/hosts; on Windows,
                             you'll typically find it in C:\WINDOWS\system32\drivers\etc.
                             Regardless of the system, the entry will look like the following:</p>
 
@@ -147,12 +161,20 @@ $ sudo /etc/init.d/apache2 reload
                         <p>The following describes the use cases for each directory as listed.</p>
                         <ul>
                             <li><b>Config/</b>: The application-wide configuration directory.</li>
-                            <li><b>Controllers/, Models/ and Views/</b>: These directories serve as the default controller, model or view directories.</li>
-                            <li><b>Data/</b>: This directory provides a place to store application data that is volatile and possibly temporary. Examples of things in this directory are session files, cache files, sqlite databases, logs and indexes. Also here is <b>Migrations\</b> folder that contains information about the database schema.</li>
+                            <li><b>Controllers/, Models/ and Views/</b>: These directories serve
+                                as the default controller, model or view directories.</li>
+                            <li><b>Data/</b>: This directory provides a place to store application data
+                                that is volatile and possibly temporary. Examples of things
+                                in this directory are session files, cache files, sqlite databases,
+                                logs and indexes. Also here is <b>Migrations\</b> folder that contains
+                                information about the database schema.</li>
                             <li><b>Language/</b>: This directory contains language folders/files</li>
-                            <li><b>Templates/</b>: This directory contains all application layouts. The location of this directory reflects that layouts are not on a 1-to-1 relationship with controllers and are independent of templates within Views/.</li>
+                            <li><b>Templates/</b>: This directory contains all application layouts. The location of
+                                this directory reflects that layouts are not on a 1-to-1 relationship
+                                with controllers and are independent of templates within Views/.</li>
                             <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
-                            <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here, you will declare the application routes.</li>
+                            <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here,
+                                you will declare the application routes.</li>
                             <li><b>errorlog.html</b>: Log file</li>
                         </ul>
 
@@ -183,12 +205,243 @@ return array(
                             <li><b>language_code</b>: Default language of application</li>
                             <li><b>database</b>: Database connection parameters (necessary only if you use databases)</li>
                             <li><b>settings_table</b>: Name of settings table (necessary only if you use databases)</li>
-                            <li><b>session_prefix</b>: The prefix is highly recommended, its very useful when sharing databases with other applications, to avoid conflicts.</li>
+                            <li><b>session_prefix</b>: The prefix is highly recommended,
+                                its very useful when sharing databases with other applications, to avoid conflicts.</li>
                             <li><b>default_timezone</b>: The timezone to your local</li>
                             <li><b>crater_error_handler</b>: enable/disable the custom error logger</li>
                             <li><b>default_template</b>: Set the default template of application</li>
                         </ul>
 
+                        <p>Config system is designed to simplify access to configuration data within applications.
+                            Do you have a configuration file like the one below: </p>
+<pre class="prettyprint linenums">
+return array(
+    /* ... */
+    'default_timezone' => 'Europe/Bucharest',
+    'crater_error_handler'  => true,
+    'default_template'  => 'default',
+    'services' = array(
+        'facebook' => array(
+            'app_id' => 1234,
+            'secret' => 'abcdefghijklm'
+        )
+    )
+);
+</pre>
+                        <p>For accessing the Facebook credentials in your controller, you will use:</p>
+<pre class="prettyprint linenums">
+$config = new \Core\Config();
+$facebook = $config->getConfig()['services']['facebook'];
+
+$appId = $facebook['app_id'];
+$secret = $facebook['secret'];
+</pre>
+
+                        <p>&nbsp;</p>
+                        <h1 id="routes">Routes</h1>
+                        <p>Routing is the act of matching a request to a given controller.</p>
+
+                        <p>Typically, routing will examine the request URI,
+                        and attempt to match the URI path segment against provided constraints.
+                        If the constraints match, a set of 'matches' are returned,
+                        one of which should be the controller name to execute. Routing can utilize other portions of
+                        the request URI or environment as well – for example, the host or scheme, query parameters,
+                        headers, request method, and more.</p>
+                        <p>In Crater, all router must be declared in Bootstrap.php:</p>
+<pre class="prettyprint linenums">
+namespace App;
+
+class Bootstrap extends \Core\Bootstrap {
+    public function setRoutes() {
+        return array(
+            array('any', '/', '\Controllers\Hello@index'),
+            array('post', '/insert-post', '\Controllers\Blog@insertPost')
+        );
+    }
+}
+</pre>
+                        <p>In the example above, at <b>line 6</b>, is declared '/' route. This route,
+                            call <b>index</b> action from <b>Hello</b> controller.
+                            First element of array is type of request method, which can be
+                            <b>'post'</b> or <b>'get'</b>
+                            (<b>'any'</b> can also be used to match both post and get requests) to match the HTTP action.
+                            To call a route to a controller instead of typing a function instead enter a string.
+                            In the string type the namespace of the controller
+                            (\Controllers if located in the root of the controllers folder) then the controller name,
+                            finally specify what method of that class to load (without 'Action').
+                            They are dictated by a @ symbol.
+                        </p>
+
+                        <h3>Routing Filters</h3>
+                        <p>Routes can use filters to dynamically pass values to the controller, their are 3 filters:</p>
+                        <ul>
+                            <li><b>any</b> - can use characters or numbers</li>
+                            <li><b>num</b> - can only use numbers</li>
+                            <li><b>all</b> - will accept everything including any slash paths</li>
+                        </ul>
+                        <p>To use a filter place the filter inside parenthesis and use a colon inside route path</p>
+<pre class="prettyprint linenums">
+array('get', '/product/(:any)', '\Controllers\Product@view'),
+</pre>
+                        <p>Would get past to App/Controllers/Product.php anything after product/ will
+                            be passed to view method.</p>
+<pre class="prettyprint linenums">
+public function viewAction($param) {
+</pre>
+                        <p>&nbsp;</p>
+                        <h1 id="controllers">Controllers</h1>
+                        <p>Controllers are the 'heart' of the framework they control when a model is used
+                            and equally when to include a view for output.
+                            A controller is a class with methods, these methods are the outputted pages when
+                            used in conjunction with routes.</p>
+                        <p>A method can be used for telling a view to show a page or outputting a data stream
+                            such as XML or a JSON array.
+                            Put simply they are the logic behind your application. More about MVC/Controller can be
+                            read here:
+                            <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Wikipedia</a></p>
+
+                        <p>
+                            Controllers are created inside the controllers folder.<br>
+                            To create a controller, create a new file, the convention is to keep
+                            the filename in "uppercase first letter" without any special characters or spaces.<br>
+                            Controllers will always use a namespace of controllers,
+                            if the file is directly located inside the Controllers folder.
+                            If the file is in another folder that folder name should be part of the name space.<br>
+                            For instance a controller called Product located in Controllers/Product would have
+                            a namespace of Controllers/Product<br>
+
+                            Controllers need to use the main core Controller; they extend it, the syntax is:
+                        </p>
+<pre class="prettyprint linenums">
+namespace Controllers;
+use Core\Controller;
+
+class Product extends Controller {
+
+    public function viewAction() {
+
+    }
+}
+</pre>
+                        <p>Controllers will need to access methods and properties located in the
+                            parent controller (Core/Controller.php) in order to do this they need to call the parent
+                            constructor inside a construct method.</p>
+<pre class="prettyprint linenums">
+public function __construct() {
+    parent::__construct();
+}
+</pre>
+                        <p>
+                            The construct method is called automatically when the controller is instantiated once called
+                            the controller can then call any property or method in the parent controller
+                            that is set as public or protected.
+                        </p>
+
+                        <h3>Actions</h3>
+                        <p>Declaring an action is as follows:</p>
+<pre class="prettyprint linenums">
+public function helloAction() {
+
+}
+</pre>
+                        <h3>Methods</h3>
+                        <p>In controller and in action, you can call many methods. In the example below we have a good part of them.</p>
+
+<pre class="prettyprint linenums">
+public function helloAction() {
+    $controllerName = $this->getControllerName();
+    $this->setControllerName('product');
+
+    $cookie = $this->getCookie()
+
+
+    if ($this->isPost()) echo 'request made by post';
+    if ($this->isGet()) echo 'request made by get';
+
+    $postParameters = $this->getPost();
+    $userPostParameter = $this->getPost('user');
+
+    $getParameters = $this->getParam();
+    $userGetParameter = $this->getParam('user');
+
+    $server = $this->getServer();
+    $clientIP = $this->getClientIp();
+
+    // Redirect
+    $this->redirect("http://google.com");
+
+}
+</pre>
+                        <p>For more about supported methods
+                            please read <a href="/api/index.html">API Documentation</a>
+                        </p>
+
+                        <h1 id="models">Models</h1>
+                        <p>
+                            Models control the data source, they are used for collecting and issuing data,
+                            this could be from a remote service as XML,JSON or using a database/ORM to
+                            get and fetch records.
+
+                            A Model is structured like a controller; it's a class.<br>
+                            You have two choices. Create a <b>custom model</b> that contains your business logic or
+                            if you want to make operations with database, you need to create <b>row</b> and <b>table</b> models.
+                            The 'database' model needs to extend the parent ORM model.<br>
+                            For example, if you want to have a model for 'user' table will need
+                            to create two files: row and table model.
+                        </p>
+
+                        <p>So, you will have the following structure:</p>
+<pre class="prettyprint">
+    <span class="nocode">
+    App\
+        Models\
+            Row\
+                User.php
+            Table\
+                User.php
+    </span>
+</pre>
+                        <p>In App\Models\Row\User.php you need to have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models\Row;
+use Core\Orm\RowGateway;
+
+class User extends RowGateway {
+
+}
+</pre>
+                        <p>In App\Models\Table\User.php you need to have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models\Table;
+use Core\Orm\TableGateway;
+
+class User extends TableGateway {
+    protected $_name = 'user';
+    protected $_primary = 'user_id';
+    protected $_rowClass = 'Models\Row\User';
+}
+</pre>
+                        <p>For more information about ORM models, read the section <a href="#orm">ORM</a>.</p>
+                        <p>If you want to create a <b>custom model</b>, things are much simpler.
+                            You will have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models;
+
+class MyModel {
+    public function getName() {
+        return 'Crater PHP Framework';
+    }
+}
+</pre>
+                        <p>And in your controller:</p>
+<pre class="prettyprint linenums">
+public function indexAction() {
+    $myModel = new \Models\MyModel();
+    echo $myModel->getName();
+}
+</pre>
+
+                        <a href="#top" class="go-on-top">&uarr;</a>
                     </div>
                 </div>
             </div>
