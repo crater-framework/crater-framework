@@ -181,3 +181,8 @@ p.footer {
     display: block;
     background-size: 110px;
 }
+
+.list-group-item {
+    padding: 8px 13px;
+    font-size: 14px;
+}
