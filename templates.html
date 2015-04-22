@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Templates</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item selected">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="templates">Templates</h1>
+                <p>Template or layout is the site's markup. This is the parent of view.
+                    All the templates are in <b>App/Templates/</b>. The default template name is <b>default</b>
+                </p>
+                <p>Note: All view files and template file, should have <b>.phtml</b> extension.</p>
+                <h3>Views in templates</h3>
+                <p><b>$this->content()</b> is the place where will be included the view file.</p>
+                <h3>The partials</h3>
+                <p>A partial is a piece of code that can be included in a template or in a view.<br>
+                    <b>$this->partial('index/social')</b>, will include a social html code.</p>
+
+                <p>An example of template:</p>
+<pre class="prettyprint linenums">
+&#x3C;html&#x3E;
+    &#x3C;head&#x3E;
+        &#x3C;title&#x3E;Crater Framework App&#x3C;/title&#x3E;
+        &#x3C;meta http-equiv=&#x22;Content-type&#x22; content=&#x22;text/html; charset=utf-8&#x22;/&#x3E;
+        &#x3C;link href=&#x22;/static/css/main.css&#x22; rel=&#x22;stylesheet&#x22;&#x3E;
+    &#x3C;/head&#x3E;
+    &#x3C;body&#x3E;
+        &#x3C;div class=&#x22;flash-message&#x22;&#x3E;
+            &#x3C;?php $this-&#x3E;partial(&#x27;utils/flash-message&#x27;) ?&#x3E;
+        &#x3C;/div&#x3E;
+        &#x3C;div class=&#x22;container&#x22;&#x3E;
+            &#x3C;?php $this-&#x3E;content() ?&#x3E;
+        &#x3C;/div&#x3E;
+    &#x3C;/body&#x3E;
+&#x3C;/html&#x3E;
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

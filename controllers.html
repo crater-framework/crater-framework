@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Controllers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item selected">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="controllers">Controllers</h1>
+                <p>Controllers are the 'heart' of the framework they control when a model is used
+                    and equally when to include a view for output.
+                    A controller is a class with methods, these methods are the outputted pages when
+                    used in conjunction with routes.</p>
+                <p>A method can be used for telling a view to show a page or outputting a data stream
+                    such as XML or a JSON array.
+                    Put simply they are the logic behind your application. More about MVC/Controller can be
+                    read here:
+                    <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Wikipedia</a></p>
+
+                <p>
+                    Controllers are created inside the controllers folder.<br>
+                    To create a controller, create a new file, the convention is to keep
+                    the filename in "uppercase first letter" without any special characters or spaces.<br>
+                    Controllers will always use a namespace of controllers,
+                    if the file is directly located inside the Controllers folder.
+                    If the file is in another folder that folder name should be part of the name space.<br>
+                    For instance a controller called Product located in Controllers/Product would have
+                    a namespace of Controllers/Product<br>
+
+                    Controllers need to use the main core Controller; they extend it, the syntax is:
+                </p>
+<pre class="prettyprint linenums">
+namespace Controllers;
+use Core\Controller;
+
+class Product extends Controller
+{
+
+    public function viewAction()
+    {
+
+    }
+}
+</pre>
+                <p>Controllers will need to access methods and properties located in the
+                    parent controller (Core/Controller.php) in order to do this they need to call the parent
+                    constructor inside a construct method.</p>
+<pre class="prettyprint linenums">
+public function __construct()
+{
+    parent::__construct();
+}
+</pre>
+                <p>
+                    The construct method is called automatically when the controller is instantiated once called
+                    the controller can then call any property or method in the parent controller
+                    that is set as public or protected.
+                </p>
+
+                <h3>Actions</h3>
+                <p>Declaring an action is as follows:</p>
+<pre class="prettyprint linenums">
+public function helloAction()
+{
+
+}
+</pre>
+                <h3>Methods</h3>
+                <p>In controller and in action, you can call many methods. In the example below we have a good part of them.</p>
+
+<pre class="prettyprint linenums">
+public function helloAction()
+{
+    $controllerName = $this->getControllerName();
+    $this->setControllerName('product');
+
+    $cookie = $this->getCookie()
+
+
+    if ($this->isPost()) {
+        echo 'request made by post';
+    }
+
+    if ($this->isGet()) {
+        echo 'request made by get';
+    }
+
+    $postParameters = $this->getPost();
+    $userPostParameter = $this->getPost('user');
+
+    $getParameters = $this->getParam();
+    $userGetParameter = $this->getParam('user');
+
+    $server = $this->getServer();
+    $clientIP = $this->getClientIp();
+
+    // Redirect
+    $this->redirect("http://google.com");
+
+}
+</pre>
+                <p>For more about supported methods
+                    please read <a href="/api/index.html">API Documentation</a>
+                </p>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

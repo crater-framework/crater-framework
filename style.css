@@ -21,6 +21,10 @@ body {
     text-decoration: none;
 }
 
+a.header-link {
+    text-decoration: none;
+    color: #fff;
+}
 
 .header {
     background: url('/images/header.png')no-repeat 0px 15px;
@@ -44,6 +48,12 @@ body {
     margin: 0;
     font-size: 32px;
     padding: 0 0 0 35px;
+}
+
+.list-group-item.selected,
+.list-group-item.selected:hover {
+    background: #f0ad4e;
+    color: black;
 }
 
 .list-group p.active {

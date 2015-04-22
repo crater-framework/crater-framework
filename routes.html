@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Routes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item selected">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="routes">Routes</h1>
+                <p>Routing is the act of matching a request to a given controller.</p>
+
+                <p>Typically, routing will examine the request URI,
+                    and attempt to match the URI path segment against provided constraints.
+                    If the constraints match, a set of 'matches' are returned,
+                    one of which should be the controller name to execute. Routing can utilize other portions of
+                    the request URI or environment as well – for example, the host or scheme, query parameters,
+                    headers, request method, and more.</p>
+                <p>In Crater, all router must be declared in Bootstrap.php:</p>
+<pre class="prettyprint linenums">
+namespace App;
+
+class Bootstrap extends \Core\Bootstrap
+{
+    public function setRoutes()
+    {
+        return array(
+            array('any', '/', '\Controllers\Hello@index'),
+            array('post', '/insert-post', '\Controllers\Blog@insertPost')
+        );
+    }
+}
+</pre>
+                <p>In the example above, at <b>line 6</b>, is declared '/' route. This route,
+                    call <b>index</b> action from <b>Hello</b> controller.
+                    First element of array is type of request method, which can be
+                    <b>'post'</b> or <b>'get'</b>
+                    (<b>'any'</b> can also be used to match both post and get requests) to match the HTTP action.
+                    To call a route to a controller instead of typing a function instead enter a string.
+                    In the string type the namespace of the controller
+                    (\Controllers if located in the root of the controllers folder) then the controller name,
+                    finally specify what method of that class to load (without 'Action').
+                    They are dictated by a @ symbol.
+                </p>
+
+                <h3>Routing Filters</h3>
+                <p>Routes can use filters to dynamically pass values to the controller, their are 3 filters:</p>
+                <ul>
+                    <li><b>any</b> - can use characters or numbers</li>
+                    <li><b>num</b> - can only use numbers</li>
+                    <li><b>all</b> - will accept everything including any slash paths</li>
+                </ul>
+                <p>To use a filter place the filter inside parenthesis and use a colon inside route path</p>
+<pre class="prettyprint linenums">
+array('get', '/product/(:any)', '\Controllers\Product@view'),
+</pre>
+                <p>Would get past to App/Controllers/Product.php anything after product/ will
+                    be passed to view method.</p>
+<pre class="prettyprint linenums">
+public function viewAction($param) {
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Config</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item selected">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="config">Config</h1>
+                <p>All application configuration is in <b>App/Config</b> folder.
+                    There you can have 2 files: <b>local.php</b> and <b>global.php</b><br>
+                    <b>global.php</b> file is overwritten by the file <b>local.php</b>
+                </p>
+                <p>A minimal configuration looks like this:</p>
+<pre class="prettyprint linenums">
+return array(
+    'language_code' => 'en',
+    'database' => array(
+        'type'      => 'mysql',
+        'host'      => '',
+        'name'      => '',
+        'user'      => '',
+        'password'  => '',
+    ),
+    'settings_table' => 'crt_settings',
+    'session_prefix' => 'crt_',
+    'default_timezone' => 'Europe/Bucharest',
+    'crater_error_handler'  => true,
+    'default_template'  => 'default',
+);
+</pre>
+                <ul>
+                    <li><b>language_code</b>: Default language of application</li>
+                    <li><b>database</b>: Database connection parameters (necessary only if you use databases)</li>
+                    <li><b>settings_table</b>: Name of settings table (necessary only if you use databases)</li>
+                    <li><b>session_prefix</b>: The prefix is highly recommended,
+                        its very useful when sharing databases with other applications, to avoid conflicts.</li>
+                    <li><b>default_timezone</b>: The timezone to your local</li>
+                    <li><b>crater_error_handler</b>: enable/disable the custom error logger</li>
+                    <li><b>default_template</b>: Set the default template of application</li>
+                </ul>
+
+                <p>Config system is designed to simplify access to configuration data within applications.
+                    Do you have a configuration file like the one below: </p>
+<pre class="prettyprint linenums">
+return array(
+    /* ... */
+    'default_timezone' => 'Europe/Bucharest',
+    'crater_error_handler'  => true,
+    'default_template'  => 'default',
+    'services' = array(
+        'facebook' => array(
+            'app_id' => 1234,
+            'secret' => 'abcdefghijklm'
+        )
+    )
+);
+</pre>
+                <p>For accessing the Facebook credentials in your controller, you will use:</p>
+<pre class="prettyprint linenums">
+$config = new \Core\Config();
+$facebook = $config->getConfig()['services']['facebook'];
+
+$appId = $facebook['app_id'];
+$secret = $facebook['secret'];
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

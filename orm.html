@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - ORM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item selected">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="orm">Crater ORM</h1>
+                <p>Object-relational mapping (ORM, O/RM, and O/R mapping) in computer software is a
+                    programming technique for converting data between incompatible type systems in relational
+                    databases and object-oriented programming languages. This creates, in effect,
+                    a "virtual object database" that can be used from within the programming language</p>
+                <p>Crater ORM is based on Table Data Gateway pattern and Row Data Gateway pattern</p>
+                <p>So, we have two main entities:</p>
+                <ul>
+                    <li>Table</li>
+                    <li>Row</li>
+                </ul>
+
+                <p>The <b>Table</b> class is an object-oriented interface to database tables.
+                    It provides methods for many common operations on tables.
+                    The base class is extensible, so you can add custom logic.</p>
+
+                <h3>Defining the Table</h3>
+                <p>Declare the database table for which this class is defined, using the protected
+                    variable $_name. This is a string, and must contain the name of the table spelled as
+                    it appears in the database.</p>
+                <p>Example of declaring a table class:</p>
+<pre class="prettyprint linenums">
+namespace Models\Table;
+use Core\Orm\TableGateway;
+
+class User extends TableGateway
+{
+    protected $_name = 'user';
+    protected $_primary = 'user_id';
+    protected $_rowClass = 'Models\Row\User';
+}
+</pre>
+                <ul>
+                    <li><b>$_name</b> is the name of the table</li>
+                    <li><b>$_primary</b> is the name of the primary column</li>
+                    <li><b>$_rowClass</b> is the name of the row class</li>
+                </ul>
+                <p><b>NOTE: </b>all variables is required</p>
+
+                <h3>Inserting Rows to a Table</h3>
+                <p>You can use the Table object to insert rows into the database table on which the Table
+                    object is based. Use the insert() method of your Table object.
+                    The argument is an associative array, mapping column names to values.</p>
+<pre class="prettyprint linenums">
+$table = new \Models\Table\Bug();
+
+$data = array(
+    'created_on'      => '2015-03-22',
+    'bug_description' => 'Something wrong',
+    'bug_status'      => 'NEW'
+);
+
+$table->insert($data);
+</pre>
+
+                <h3>Updating Rows in a Table (NOT NOW)</h3>
+                <p>You can update rows in a database table using the <b>update()</b> method of a Table class.
+                    This method takes two arguments: an associative array of columns to change and new values
+                    to assign to these columns; and an SQL expression that is used in a WHERE clause,
+                    as criteria for the rows to change in the UPDATE operation.</p>
+
+<pre class="prettyprint linenums">
+$table = new \Models\Table\Bug();
+
+$data = array(
+    'updated_at'      => '2015-03-23',
+    'bug_status'      => 'FIXED'
+);
+
+$where = array(
+    'bug_id' => 23
+);
+
+$table->update($data, $where);
+</pre>
+
+                <h3>Deleting Rows from a Table</h3>
+                <p>You can delete rows from a database table using the <b>delete()</b> method. This method takes one
+                    argument, which is an SQL expression that is used in a WHERE clause, as criteria
+                    for the rows to delete.</p>
+
+<pre class="prettyprint linenums">
+$table = new \Models\Table\Bug();
+
+$where = array(
+    'bug_id' => 21
+);
+
+$table->delete($where);
+</pre>
+                <h3>Finding Rows by Primary Key</h3>
+                <p>You can query the database table for rows matching specific values in the primary key,
+                    using the <b>find()</b> method. The first argument of this method
+                    is a single value to match against the primary key of the table.
+                </p>
+
+<pre class="prettyprint linenums">
+$table = new \Models\Table\Bug();
+// Returns a Rowset
+$rows = $table->find(12);
+</pre>
+
+                <h3>Querying for a Set of Rows and for a Single Row</h3>
+                <p>You can use the following fetch methods: <b>fetchRow()</b> that return a row class and
+                    <b>fetchAll() that return a collection of rows (a rowset)</b></p>
+
+<pre class="prettyprint linenums">
+$table = new \Models\Table\Bug();
+
+$where = array(
+    'bug_status' => 'FIXED',
+    'standard' => 2
+);
+
+$columns = array(
+    'bug_status',
+    'standard',
+    'bug_id',
+    'bug_code',
+    'bug_description',
+);
+
+$order = array(
+    'bug_code' => 'ASC'
+);
+
+$limit = 10;
+
+$lazy = false;
+
+$rows = $table->fetchAll($where, $columns, $order, $limit, $lazy);
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

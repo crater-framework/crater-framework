@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Models</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item selected">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="models">Models</h1>
+                <p>
+                    Models control the data source, they are used for collecting and issuing data,
+                    this could be from a remote service as XML,JSON or using a database/ORM to
+                    get and fetch records.
+
+                    A Model is structured like a controller; it's a class.<br>
+                    You have two choices. Create a <b>custom model</b> that contains your business logic or
+                    if you want to make operations with database, you need to create <b>row</b> and <b>table</b> models.
+                    The 'database' model needs to extend the parent ORM model.<br>
+                    For example, if you want to have a model for 'user' table will need
+                    to create two files: row and table model.
+                </p>
+
+                <p>So, you will have the following structure:</p>
+<pre class="prettyprint">
+    <span class="nocode">
+    App\
+        Models\
+            Row\
+                User.php
+            Table\
+                User.php
+    </span>
+</pre>
+                <p>In App\Models\Row\User.php you need to have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models\Row;
+use Core\Orm\RowGateway;
+
+class User extends RowGateway
+{
+
+}
+</pre>
+                <p>In App\Models\Table\User.php you need to have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models\Table;
+use Core\Orm\TableGateway;
+
+class User extends TableGateway
+{
+    protected $_name = 'user';
+    protected $_primary = 'user_id';
+    protected $_rowClass = 'Models\Row\User';
+}
+</pre>
+                <p>For more information about ORM models, read the section <a href="#orm">ORM</a>.</p>
+                <p>If you want to create a <b>custom model</b>, things are much simpler.
+                    You will have something like:</p>
+<pre class="prettyprint linenums">
+namespace Models;
+
+class MyModel
+{
+    public function getName()
+    {
+        return 'Crater PHP Framework';
+    }
+}
+</pre>
+                <p>And in your controller:</p>
+<pre class="prettyprint linenums">
+public function indexAction()
+{
+    $myModel = new \Models\MyModel();
+    echo $myModel->getName();
+}
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

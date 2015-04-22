@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Install</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item selected">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="install">Install</h1>
+                <h3>Clone crater skeleton application repository</h3>
+<pre class="prettyprint linenums">
+$ cd /var/www
+$ git clone git@github.com:crater-framework/crater-skeleton-application.git crater
+</pre>
+
+                <p>The Crater Framework is on packagist
+                    <a href="https://packagist.org/packages/crater-php-framework/crater-php-framework">
+                        https://packagist.org/packages/crater-php-framework/crater-php-framework</a>
+                </p>
+<pre class="prettyprint linenums">
+$ cd /var/www/crater
+$ php composer.phar self-update
+$ php composer.phar install
+</pre>
+
+                <p>Set errorlog.html permission</p>
+<pre class="prettyprint linenums">
+$ cd /var/www/crater/App/Data
+$ sudo chmod 777 errorlog.html
+</pre>
+
+                <h3>Apache setup</h3>
+                <p>To use Apache, setup a virtual host to point to the public/ directory of the project.</p>
+<pre class="prettyprint linenums">
+$ cd /etc/apache2/sites-available
+$ sudo vim crater.local
+</pre>
+                <p>It should look something like below:</p>
+<pre class="prettyprint linenums">
+&lt;VirtualHost *:80&gt;
+   ServerName crater.local
+   DocumentRoot /var/www/crater/public
+
+   &lt;Directory /var/www/crater/public&gt;
+       AllowOverride All
+       Order allow,deny
+       Allow from all
+   &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+
+                <p>Enable site</p>
+<pre class="prettyprint linenums">
+$ sudo a2ensite crater.local
+$ sudo /etc/init.d/apache2 reload
+</pre>
+                <p>Finally, you will need to add an entry in your hosts file corresponding to the value you
+                    place in your ServerName directive.
+                    On *nix-like systems, this is usually /etc/hosts; on Windows,
+                    you'll typically find it in C:\WINDOWS\system32\drivers\etc.
+                    Regardless of the system, the entry will look like the following:</p>
+
+<pre class="prettyprint linenums">
+127.0.0.1   crater.local
+</pre>
+                <h3>Checkpoint</h3>
+                <p>At this point, you should be able to fire up your initial Zend Framework application.
+                    Point your browser to the server name you configured in the previous section;
+                    you should be able to see a welcome page at this point.<br>
+                    The website can then be accessed using <b>http://crater.localhost</b>
+                    <br><br>Restart Apache.
+                    <br><br>If you’ve done it correctly, it should look something like this:</p>
+                <img src="/images/window.png" style="width: 90%;display: block;margin: 0 auto;">
+
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+

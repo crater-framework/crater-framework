@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Crater PHP Framework - User Guide - Views</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body  onload="prettyPrint()">
+<div class="container-fluid">
+    <a href="/" class="header-link">
+        <div class="header" id="top">
+            <h1>Crater PHP Framework</h1>
+            <h2><i>fast, lightweight and modular</i></h2>
+        </div>
+    </a>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <p class="list-group-item active">Getting Started</p>
+                <a href="/index" class="list-group-item">Overview</a>
+                <a href="/download" class="list-group-item">Download</a>
+                <a href="/requirements" class="list-group-item">Requirements</a>
+                <a href="/install" class="list-group-item">Install</a>
+                <p class="list-group-item active">The Basics</p>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
+                <a href="/config" class="list-group-item">Config</a>
+                <a href="/routes" class="list-group-item">Routes</a>
+                <a href="/controllers" class="list-group-item">Controllers</a>
+                <a href="/models" class="list-group-item">Models</a>
+                <a href="/views" class="list-group-item selected">Views</a>
+                <a href="/templates" class="list-group-item">Templates</a>
+                <a href="/orm" class="list-group-item">Crater ORM</a>
+                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="#" class="list-group-item">Languages</a>
+                <a href="#" class="list-group-item">Errors</a>
+                <p class="list-group-item active">Helpers</p>
+                <a href="#" class="list-group-item">Sessions</a>
+                <a href="#" class="list-group-item">Validators</a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="content">
+                <a href="https://github.com/crater-framework" class="contribute"></a>
+                <h1 id="views">Views</h1>
+                <p>Views are the visual side of the framework, they are the html output of the pages.
+                    All views are located in the views folder. The actual views can be located
+                    directly inside the views folder or in a sub folder, this helps with organising your views.</p>
+
+                <p>Views are called from controllers once called they act as included files outputting
+                    anything inside of them. They have access to any data passed to them from a data array or with object setter.
+                </p>
+
+                <p><b>render()</b> is the primary method of View Class.</p>
+                <h3>Using a view from a controller</h3>
+<pre class="prettyprint linenums">
+public function indexAction()
+{
+    $viewVariables = array(
+        'title' => 'Hello Crater',
+        'message' => 'How are you?',
+        'options' => array(
+            'good',
+            'pretty good',
+            'bad',
+            'very bad'
+        )
+    );
+
+    $this->view->another_variable = 'This is another variable.';
+
+    return $this->view->render('hello/index', $viewVariables);
+}
+</pre>
+                <p>So, in index action, you already have the View object.
+                    All you have to do is to set variables and specify the name of view file</p>
+                <p>As you can see, you have two ways to set the variables. With an array or with object setter.</p>
+
+                <p>At <b>line 10</b>, you rend view from: <b>App/Views/hello/index.phtml</b></p>
+
+                <p>Note: All view files and template file, should have <b>.phtml</b> extension.</p>
+                <p>Views are normal php files they can contain php and html, as such any php logic
+                    can be used inside a view though its recommended to use only simple logic inside
+                    a view anything more complex is better suited inside a controller.</p>
+                <p>For the above data we have the following content:</p>
+<pre class="prettyprint linenums">
+&#x3C;div&#x3E;
+    &#x3C;h1&#x3E;&#x3C;?php echo $this-&#x3E;title?&#x3E;&#x3C;/h1&#x3E;
+    &#x3C;h2&#x3E;&#x3C;?php echo $this-&#x3E;message?&#x3E;&#x3C;/h2&#x3E;
+    &#x3C;ul&#x3E;
+        &#x3C;?php foreach ($this-&#x3E;options as $option):?&#x3E;
+            &#x3C;li&#x3E;&#x3C;?php echo $option?&#x3E;&#x3C;/li&#x3E;
+        &#x3C;?php endforeach?&#x3E;
+    &#x3C;/ul&#x3E;
+&#x3C;/div&#x3E;
+</pre>
+                <h3>Add headers</h3>
+                <p>If you want to send a raw HTTP header,
+                    you can use <b>addHeader()</b> or <b>addHeaders()</b> methods.</p>
+
+<pre class="prettyprint linenums">
+$this->view->addHeader('Content-Type: application/pdf')
+</pre>
+                <p>or</p>
+
+<pre class="prettyprint linenums">
+$headers = array(
+    'Cache-Control: no-cache, must-revalidate',
+    'Expires: Sat, 26 Jul 1997 05:00:00 GMT'
+);
+
+$this->view->addHeaders($headers);
+</pre>
+                <h3>JSON Response</h3>
+                <p>If you want to have a JSON Response on an action, you can use <b>jsonResponse()</b> method.</p>
+
+<pre class="prettyprint linenums">
+$data = array(
+    "content" => array(
+        "first_var" => "foo",
+        "second_var" => "bar"
+    ),
+    "success" => true
+);
+
+return $this->view->jsonResponse($data);
+</pre>
+                <a href="#top" class="go-on-top">&uarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="footer">Crater PHP Framework 2015</p>
+        </div>
+    </div>
+</div>
+
+<!--Theme https://bootswatch.com/superhero/ -->
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+</body>
+</html>
+
