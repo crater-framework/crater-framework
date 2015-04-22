@@ -148,7 +148,7 @@ $table = new \Models\Table\Bug();
 $rows = $table->find(12);
 </pre>
 
-                <h3>Querying for a Set of Rows and for a Single Row</h3>
+                <h3>Querying for a set of Rows and for a single Row</h3>
                 <p>You can use the following fetch methods: <b>fetchRow()</b> that return a row class and
                     <b>fetchAll()</b> that return a collection of rows (rowset)</p>
 
@@ -183,7 +183,7 @@ $row = $table->fetchRow($where, $columns, $order);
                 <p>If <b>$lazy</b> is true, <b>fetchAll()</b> will return an array. So, you can't use relationship.
                     You can use $lazy = true if you expect to return a lot of data.</p>
 
-                <h3>Define Custom Search Methods in Table</h3>
+                <h3>Define custom search methods in Table</h3>
                 <p>You can implement custom query methods in your Table class, if you have frequent need to do
                     queries against this table with specific criteria. Most queries can be written using fetchAll()</p>
 
@@ -244,7 +244,7 @@ $row = $tableUser->fetchRow(
 );
 </pre>
 
-                <h3>Changing column values in a row</h3>
+                <h3>Changing column values in a Row</h3>
                 <p>You can set individual column values using column accessors, similar to how the columns are
                     read as object properties in the example above.</p>
                 <p>Using a column accessor to set a value changes the column value of the row object in your
@@ -268,7 +268,7 @@ $row->status = 'AVAILABLE';
 $row->save();
 </pre>
 
-                <h3>Deleting a row</h3>
+                <h3>Deleting a Row</h3>
                 <p>You can call the <b>delete()</b> method on a Row object. This deletes rows in the database matching
                     the primary key in the Row object.</p>
 
@@ -327,6 +327,7 @@ class User extends TableGateway
     protected $_primary = 'user_id';
     protected $_rowClass = 'Models\Row\User';
 
+    // Also you can have $_has_many which has the same way of declaration
     protected $_has_one = array(
         'UserInfo' => array(
             'refTableClass' => 'Models\Table\UserInfo',
