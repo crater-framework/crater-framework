@@ -35,7 +35,7 @@
                 <a href="/views" class="list-group-item">Views</a>
                 <a href="/templates" class="list-group-item">Templates</a>
                 <a href="/orm" class="list-group-item selected">Crater ORM</a>
-                <a href="#" class="list-group-item">Crater CLI</a>
+                <a href="/cli" class="list-group-item">Crater CLI</a>
                 <a href="#" class="list-group-item">Languages</a>
                 <a href="#" class="list-group-item">Errors</a>
                 <p class="list-group-item active">Helpers</p>
@@ -101,7 +101,7 @@ $data = array(
 $table->insert($data);
 </pre>
 
-                <h3>Updating Rows in a Table (NOT NOW)</h3>
+                <h3>Updating Rows in a Table</h3>
                 <p>You can update rows in a database table using the <b>update()</b> method of a Table class.
                     This method takes two arguments: an associative array of columns to change and new values
                     to assign to these columns; and an SQL expression that is used in a WHERE clause,
@@ -150,7 +150,7 @@ $rows = $table->find(12);
 
                 <h3>Querying for a Set of Rows and for a Single Row</h3>
                 <p>You can use the following fetch methods: <b>fetchRow()</b> that return a row class and
-                    <b>fetchAll() that return a collection of rows (a rowset)</b></p>
+                    <b>fetchAll()</b> that return a collection of rows (rowset)</p>
 
 <pre class="prettyprint linenums">
 $table = new \Models\Table\Bug();
@@ -177,7 +177,197 @@ $limit = 10;
 $lazy = false;
 
 $rows = $table->fetchAll($where, $columns, $order, $limit, $lazy);
+// OR
+$row = $table->fetchRow($where, $columns, $order);
 </pre>
+                <p>If <b>$lazy</b> is true, <b>fetchAll()</b> will return an array. So, you can't use relationship.
+                    You can use $lazy = true if you expect to return a lot of data.</p>
+
+                <h3>Define Custom Search Methods in Table</h3>
+                <p>You can implement custom query methods in your Table class, if you have frequent need to do
+                    queries against this table with specific criteria. Most queries can be written using fetchAll()</p>
+
+                <p>For example: </p>
+<pre class="prettyprint linenums">
+namespace Models\Table;
+use Core\Orm\TableGateway;
+
+class User extends TableGateway
+{
+    protected $_name = 'user';
+    protected $_primary = 'user_id';
+    protected $_rowClass = 'Models\Row\User';
+
+    public function findByStatus($status)
+    {
+        return $this->fetchAll(array('status' => $status));
+    }
+}
+</pre>
+                <p>And in your controller you will use:</p>
+
+<pre class="prettyprint linenums">
+$userTable = new \Models\Table\User();
+$rows = $userTable->findByStatus("active");
+</pre>
+
+                <h3>Defining the Row</h3>
+                <p>A Row Data Gateway gives you objects that look exactly like the record in your
+                    record structure but can be accessed with the regular mechanisms of your programming language.
+                    All details of data source access are hidden behind this interface.</p>
+                <p>You need to have a row class for each table.</p>
+                <p>A standard declaration we have below</p>
+
+<pre class="prettyprint linenums">
+namespace Models\Row;
+use Core\Orm\RowGateway;
+
+class User extends RowGateway
+{
+
+}
+</pre>
+                <p>The return of $table->fetchRow() will be a row class instance. The return of $table->fetchAll() will
+                be an array with several instances of row class</p>
+
+                <h3>Fetching a Row</h3>
+                <p>Example of fetching a row</p>
+
+<pre class="prettyprint linenums">
+$tableUser = new \Models\Table\User();
+
+$row = $tableUser->fetchRow(
+    array(
+        'first_name' => 'Michael',
+        'last_name' => 'Hermen'
+    )
+);
+</pre>
+
+                <h3>Changing column values in a row</h3>
+                <p>You can set individual column values using column accessors, similar to how the columns are
+                    read as object properties in the example above.</p>
+                <p>Using a column accessor to set a value changes the column value of the row object in your
+                    application, but it does not commit the change to the database yet.
+                    You can do that with the <b>save()</b> method.</p>
+
+<pre class="prettyprint linenums">
+$tableUser = new \Models\Table\User();
+
+$row = $tableUser->fetchRow(
+    array(
+        'first_name' => 'Michael',
+        'last_name' => 'Hermen'
+    )
+);
+
+// Change the value of one or more columns
+$row->status = 'AVAILABLE';
+
+// UPDATE the row in the database with new values
+$row->save();
+</pre>
+
+                <h3>Deleting a row</h3>
+                <p>You can call the <b>delete()</b> method on a Row object. This deletes rows in the database matching
+                    the primary key in the Row object.</p>
+
+<pre class="prettyprint linenums">
+$tableUser = new \Models\Table\User();
+
+$row = $tableUser->fetchRow(
+    array(
+        'first_name' => 'Michael',
+        'last_name' => 'Hermen'
+    )
+);
+
+// DELETE this row
+$row->delete();
+</pre>
+                <h3>Define custom methods in Row</h3>
+                <p>You can implement custom methods in your Row class</p>
+
+<pre class="prettyprint linenums">
+namespace Models\Row;
+use Core\Orm\RowGateway;
+
+class User extends RowGateway
+{
+    public function combinedName()
+    {
+        return $this->last_name . ' ' . $this->first_name;
+    }
+}
+</pre>
+                <p>You can call the combinedName() function as follows:</p>
+<pre class="prettyprint linenums">
+$tableUser = new \Models\Table\User();
+
+$user = $tableUser->find(1);
+
+echo $user->combinedName();
+</pre>
+
+                <h3>Table Relationships</h3>
+                <p>Tables have relationships to each other in a relational database.
+                    An entity in one table can be linked to one or more entities in another table by using referential
+                    integrity constraints defined in the database schema.</p>
+                <h3>Defining Relationships</h3>
+                <p>Define classes for each of your tables, as described in this chapter.
+                    Also see this chapter for a description of the example database for which the following example
+                    code is designed.</p>
+                <p>Below are the PHP class definitions for these tables:</p>
+
+<pre class="prettyprint linenums">
+// `user` table declaration
+class User extends TableGateway
+{
+    protected $_name = 'user';
+    protected $_primary = 'user_id';
+    protected $_rowClass = 'Models\Row\User';
+
+    protected $_has_one = array(
+        'UserInfo' => array(
+            'refTableClass' => 'Models\Table\UserInfo',
+            'fkColumn' => 'user_info_id'
+        )
+    );
+}
+
+// `user_info` table declaration
+class UserInfo extends TableGateway
+{
+    protected $_name = 'user_info';
+    protected $_primary = 'user_info_id';
+    protected $_rowClass = 'Models\Row\UserInfo';
+
+    protected $_belongs_to = array(
+        'User' => array(
+            'refTableClass' => 'Models\Table\User',
+        )
+    );
+}
+</pre>
+                <ul>
+                    <li><b>refTableClass</b> The class name of the parent table.</li>
+                    <li><b>fkColumn</b> A string naming the foreign key column names in the dependent table.</li>
+                </ul>
+
+                <h3>How to use in controller:</h3>
+<pre class="prettyprint linenums">
+$tableUser = new \Models\Table\User();
+
+$user = $tableUser->find(1);
+$userInfo = $user->UserInfo();
+
+echo 'User city:' . $userInfo->city;
+
+// Also, you can use the inversion method
+
+$user = $userInfo->User();
+</pre>
+
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>
         </div>
