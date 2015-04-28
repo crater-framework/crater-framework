@@ -3,6 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Crater PHP Framework - User Guide - CLI</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="Crater PHP Framework command-line interface."/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="bootstrap.min.css" media="screen">
@@ -22,7 +24,7 @@
                 <div class="col-md-2">
                     <div class="list-group">
                         <p class="list-group-item active">Getting Started</p>
-                        <a href="/index" class="list-group-item">Overview</a>
+                        <a href="/" class="list-group-item">Overview</a>
                         <a href="/download" class="list-group-item">Download</a>
                         <a href="/requirements" class="list-group-item">Requirements</a>
                         <a href="/install" class="list-group-item">Install</a>
@@ -34,21 +36,134 @@
                         <a href="/models" class="list-group-item">Models</a>
                         <a href="/views" class="list-group-item">Views</a>
                         <a href="/templates" class="list-group-item">Templates</a>
+                        <a href="/flash-messenger" class="list-group-item">Flash Messenger</a>
                         <a href="/orm" class="list-group-item">Crater ORM</a>
                         <a href="/cli" class="list-group-item selected">Crater CLI</a>
-                        <a href="#" class="list-group-item">Languages</a>
-                        <a href="#" class="list-group-item">Errors</a>
+                        <a href="/console" class="list-group-item">Console</a>
+                        <a href="/language" class="list-group-item">Languages</a>
+                        <a href="/errors" class="list-group-item">Errors</a>
                         <p class="list-group-item active">Helpers</p>
-                        <a href="#" class="list-group-item">Sessions</a>
-                        <a href="#" class="list-group-item">Validators</a>
+                        <a href="/sessions" class="list-group-item">Sessions</a>
+                        <a href="/validators" class="list-group-item">Validators</a>
                     </div>
                 </div>
                 <div class="col-md-10">
                     <div class="content">
                         <a href="https://github.com/crater-framework" class="contribute"></a>
                         <h1 id="overview">CLI (command-line interface)</h1>
+                        <p>CLI is the command-line interface included with Crater PHP Framework.
+                            It provides a number of helpful commands for your use while developing your application.</p>
+                        <h3>Listing all available commands</h3>
+                        <p>To view a list of all available CLI category commands, you may use command:</p>
+<pre class="prettyprint">
+$ cd /var/www/crater/App
+$ php cli
+</pre>
+                        <h3>BUILD command</h3>
+                        <p>With build command, you can generate a new controller, model, view or template</p>
+                        <p>For help menu, type:</p>
+<pre class="prettyprint">
+$ php cli build
+</pre>
 
+                        <h3>MIGRATE command</h3>
+                        <p>With migrate command, you can create and manage the migration files</p>
+                        <p>First of all, you need to change config file for access at your database. After this,
+                        you need to init Crater migration with following command:</p>
+<pre class="prettyprint">
+$ php cli migrate init
+</pre>
+                        <p>In the next step, you need generate a new migration file:</p>
 
+<pre class="prettyprint">
+$ php cli migrate new name_of_migration
+</pre>
+                        <p>After that, you will find a new file in <b>App/Data/Migrations</b>
+                            called <b>1428642875_name_of_migration.php</b></p>
+                        <p>The created class will have the timestamp of its creation in the class name
+                            as well as in the file name. This is the version of that migration.</p>
+                        <p>The migration file looks like:</p>
+<pre class="prettyprint linenums">
+/*
+ * name_of_migration migration file
+ *
+ * @author Author
+ * @version 1.0
+ * @date 4/20/2015
+ */
+
+class Migration_1428642875 extends \Core\Migration
+{
+
+    public function up()
+    {
+
+    }
+
+    public function down()
+    {
+
+    }
+}
+</pre>
+                        <h3>Migration methods</h3>
+                        <p>The following methods are available in <b>up()</b> and <b>down()</b> methods of a migration:</p>
+                        <ul style="font-weight: bold">
+                            <li>createTable($name, $columns)</li>
+                            <li>dropTable($name)</li>
+                            <li>addColumn($table, $name, $options)</li>
+                            <li>dropColumn($table, $name)</li>
+                            <li>addIndex($table, $columns)</li>
+                            <li>dropIndex($table, $indexName)</li>
+                            <li>query($sql)</li>
+                        </ul>
+                        <p>Please view <a href="#examples">examples</a> heading on how to use the above methods.</p>
+
+                        <h3>Apply Migration</h3>
+                        <p>After you have created a migration, all you have to do to update your database is run:</p>
+<pre class="prettyprint">
+$ php cli migrate apply
+</pre>
+
+                        <h3>Rollback Migration</h3>
+                        <p>To rollback the database schema you run the following command: </p>
+<pre class="prettyprint">
+$ php cli migrate rollback [version]
+</pre>
+                        <p>where [version] is the timestamp of the version you want to reach to back in time.</p>
+
+                        <h3 id="examples">Examples</h3>
+
+<pre class="prettyprint linenums">
+class Migration_1428642851 extends \Core\Migration
+{
+
+    public function up()
+    {
+        $this->createTable('user', array(
+            'user_id' => array('type' => 'int', 'unsigned' => true, 'primary' => true, 'ai' => true),
+            'first_name' => array('type' => 'varchar', 'length' => 60, 'null' => true),
+            'last_name' => array('type' => 'varchar', 'length' => 60, 'null' => true),
+            'email' => array('type' => 'varchar', 'length' => 40, 'null' => false),
+        ));
+
+        $this->addColumn('product', 'name', array(
+            'type' => 'varchar',
+            'after' => 'id'
+        ));
+
+        $this->addIndex('user', 'email', 'unique');
+
+        $this->query("UPDATE user SET name = 'john' WHERE name = 'johnny'");
+    }
+
+    public function down()
+    {
+        $this->dropColumn('product', 'name');
+        $this->dropTable('user');
+    }
+}
+</pre>
 
                         <a href="#top" class="go-on-top">&uarr;</a>
                     </div>
@@ -61,9 +176,6 @@
                 </div>
             </div>
         </div>
-
-        <!--Theme https://bootswatch.com/superhero/ -->
-
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
     </body>
 </html>

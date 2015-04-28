@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Crater PHP Framework - User Guide - Directory Structure</title>
+    <title>Crater PHP Framework - User Guide - Errors
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="Crater PHP Framework more about directory structure."/>
+    <meta name="description" content="Crater PHP Framework custom error logger."/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="bootstrap.min.css" media="screen">
@@ -29,7 +29,7 @@
                 <a href="/requirements" class="list-group-item">Requirements</a>
                 <a href="/install" class="list-group-item">Install</a>
                 <p class="list-group-item active">The Basics</p>
-                <a href="/directory-structure" class="list-group-item selected">Directory Structure</a>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
                 <a href="/config" class="list-group-item">Config</a>
                 <a href="/routes" class="list-group-item">Routes</a>
                 <a href="/controllers" class="list-group-item">Controllers</a>
@@ -41,7 +41,7 @@
                 <a href="/cli" class="list-group-item">Crater CLI</a>
                 <a href="/console" class="list-group-item">Console</a>
                 <a href="/language" class="list-group-item">Languages</a>
-                <a href="/errors" class="list-group-item">Errors</a>
+                <a href="/errors" class="list-group-item selected">Errors</a>
                 <p class="list-group-item active">Helpers</p>
                 <a href="/sessions" class="list-group-item">Sessions</a>
                 <a href="/validators" class="list-group-item">Validators</a>
@@ -50,58 +50,26 @@
         <div class="col-md-10">
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
-                <h1 id="directory-structure">Framework Directory Structure</h1>
-<pre class="prettyprint linenums">
-&lt;project folder&gt;/
-    App/
-        Config/
-            global.php
-            local.php
-        Controllers/
-        Data/
-            Migrations/
-            errorlog.html
-        Language/
-        Models/
-            Row/
-            Table/
-        Templates/
-        Views/
-            error/
-        Bootstrap.php
-        cli
-    Core/
-    public/
-        static/
-            images/
-            css/
-            js/
-        .htaccess
-        index.php
-    scripts/
-</pre>
-                <p>The following describes the use cases for each directory as listed.</p>
+                <h1 id="overview">Errors</h1>
+                <p>Errors? What means errors? We don't have errors :)</p>
+                <h3>How to catch the errors and the throws</h3>
+                <p>You have two choices:</p>
                 <ul>
-                    <li><b>Config/</b>: The application-wide configuration directory.</li>
-                    <li><b>Controllers/, Models/ and Views/</b>: These directories serve
-                        as the default controller, model or view directories.</li>
-                    <li><b>Data/</b>: This directory provides a place to store application data
-                        that (possibly temporary). Examples of things
-                        in this directory are session files, cache files, sqlite databases,
-                        logs and indexes. Also here is <b>Migrations\</b> folder that contains
-                        information about the database schema.</li>
-                    <li><b>errorlog.html</b>: Log file</li>
-                    <li><b>Language/</b>: This directory contains language folders/files</li>
-                    <li><b>Templates/</b>: This directory contains all application layouts. The location of
-                        this directory reflects that layouts are not on a 1-to-1 relationship
-                        with controllers and are independent of templates within Views/.</li>
-                    <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
-                    <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here,
-                        you will declare the application routes.</li>
-                    <li><b>cli</b>: Crater CLI (Command Line Interface). It provides a number
-                        of helpful commands for your use while developing your application. </li>
-
+                    <li>With Crater Logger</li>
+                    <li>With system error log</li>
                 </ul>
+                <p>For catch with Crater Logger, you need to set true <b>the crater_error_handler</b> setting in your
+                    config file.</p>
+                <p>If you choose to use Crater Logger, errors will be appended in <b>/App/Data/errorlog.html</b></p>
+                <p><b>NOTE: </b> You will need to set write permissions on errorlog.html file</p>
+<pre class="prettyprint">
+$ sudo chmod 777 /var/www/crater/App/Data/errorlog.html
+</pre>
+                <h3>Error helper</h3>
+                <p>To loop through and display errors without doing it yourself call the display method of the error class:</p>
+<pre class="prettyprint">
+echo \Core\Error::display('This is an error!');
+</pre>
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>
         </div>
@@ -116,4 +84,3 @@
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>
-

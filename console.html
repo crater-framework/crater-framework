@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Crater PHP Framework - User Guide - Directory Structure</title>
+    <title>Crater PHP Framework - User Guide - Console</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="Crater PHP Framework more about directory structure."/>
+    <meta name="description" content="Crater PHP Framework console feature information."/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="bootstrap.min.css" media="screen">
@@ -29,7 +29,7 @@
                 <a href="/requirements" class="list-group-item">Requirements</a>
                 <a href="/install" class="list-group-item">Install</a>
                 <p class="list-group-item active">The Basics</p>
-                <a href="/directory-structure" class="list-group-item selected">Directory Structure</a>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
                 <a href="/config" class="list-group-item">Config</a>
                 <a href="/routes" class="list-group-item">Routes</a>
                 <a href="/controllers" class="list-group-item">Controllers</a>
@@ -39,7 +39,7 @@
                 <a href="/flash-messenger" class="list-group-item">Flash Messenger</a>
                 <a href="/orm" class="list-group-item">Crater ORM</a>
                 <a href="/cli" class="list-group-item">Crater CLI</a>
-                <a href="/console" class="list-group-item">Console</a>
+                <a href="/console" class="list-group-item selected">Console</a>
                 <a href="/language" class="list-group-item">Languages</a>
                 <a href="/errors" class="list-group-item">Errors</a>
                 <p class="list-group-item active">Helpers</p>
@@ -50,58 +50,58 @@
         <div class="col-md-10">
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
-                <h1 id="directory-structure">Framework Directory Structure</h1>
+                <h1 id="overview">Console</h1>
+                <p>Consoles are scripts that start the application in background mode (without view and template).
+                    They are very used to cron sites</p>
+                <h3>Defining a console route</h3>
+                <p>Similar with a normal route, console route is defined in Bootstrap file: </p>
 <pre class="prettyprint linenums">
-&lt;project folder&gt;/
-    App/
-        Config/
-            global.php
-            local.php
-        Controllers/
-        Data/
-            Migrations/
-            errorlog.html
-        Language/
-        Models/
-            Row/
-            Table/
-        Templates/
-        Views/
-            error/
-        Bootstrap.php
-        cli
-    Core/
-    public/
-        static/
-            images/
-            css/
-            js/
-        .htaccess
-        index.php
-    scripts/
-</pre>
-                <p>The following describes the use cases for each directory as listed.</p>
-                <ul>
-                    <li><b>Config/</b>: The application-wide configuration directory.</li>
-                    <li><b>Controllers/, Models/ and Views/</b>: These directories serve
-                        as the default controller, model or view directories.</li>
-                    <li><b>Data/</b>: This directory provides a place to store application data
-                        that (possibly temporary). Examples of things
-                        in this directory are session files, cache files, sqlite databases,
-                        logs and indexes. Also here is <b>Migrations\</b> folder that contains
-                        information about the database schema.</li>
-                    <li><b>errorlog.html</b>: Log file</li>
-                    <li><b>Language/</b>: This directory contains language folders/files</li>
-                    <li><b>Templates/</b>: This directory contains all application layouts. The location of
-                        this directory reflects that layouts are not on a 1-to-1 relationship
-                        with controllers and are independent of templates within Views/.</li>
-                    <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
-                    <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here,
-                        you will declare the application routes.</li>
-                    <li><b>cli</b>: Crater CLI (Command Line Interface). It provides a number
-                        of helpful commands for your use while developing your application. </li>
+namespace App;
 
-                </ul>
+class Bootstrap extends \Core\Bootstrap
+{
+
+    public function setConsoles()
+    {
+        return array(
+            array('watch_price', '\Controllers\Hello@watchPrice'),
+            array('update', '\Controllers\Hello@update'),
+        );
+    }
+}
+</pre>
+
+                <p>And in controller:</p>
+<pre class="prettyprint linenums">
+public function watchPriceAction()
+{
+    // Business logic
+
+    echo "Done!\r\n";
+}
+
+public function updateAction()
+{
+    // Business logic
+
+    echo "Updated!\r\n";
+}
+</pre>
+                <h3>Create the script</h3>
+                <p>All scripts would need to stay in <b>/scripts</b> folder. <br>An example of script:</p>
+<pre class="prettyprint linenums">
+// Autoload files using Composer autoload
+require_once __DIR__ . '/../vendor/autoload.php';
+$app = new \Core\Crater($argv);
+$app->run();
+</pre>
+                <h3>Execute your script</h3>
+                <p>Write in console:</p>
+<pre class="prettyprint">
+$ cd /var/www/crater/scripts
+$ php console.php update
+Updated!
+</pre>
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>
         </div>
@@ -116,4 +116,3 @@
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>
-

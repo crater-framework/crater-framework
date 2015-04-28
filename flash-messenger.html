@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Crater PHP Framework - User Guide - Directory Structure</title>
+    <title>Crater PHP Framework - User Guide - Flash Messenger</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="Crater PHP Framework more about directory structure."/>
+    <meta name="description" content="Crater PHP Framework flash messenger feature."/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="bootstrap.min.css" media="screen">
@@ -24,19 +24,19 @@
         <div class="col-md-2">
             <div class="list-group">
                 <p class="list-group-item active">Getting Started</p>
-                <a href="/" class="list-group-item">Overview</a>
+                <a href="/" class="list-group-item selected">Overview</a>
                 <a href="/download" class="list-group-item">Download</a>
                 <a href="/requirements" class="list-group-item">Requirements</a>
                 <a href="/install" class="list-group-item">Install</a>
                 <p class="list-group-item active">The Basics</p>
-                <a href="/directory-structure" class="list-group-item selected">Directory Structure</a>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
                 <a href="/config" class="list-group-item">Config</a>
                 <a href="/routes" class="list-group-item">Routes</a>
                 <a href="/controllers" class="list-group-item">Controllers</a>
                 <a href="/models" class="list-group-item">Models</a>
                 <a href="/views" class="list-group-item">Views</a>
                 <a href="/templates" class="list-group-item">Templates</a>
-                <a href="/flash-messenger" class="list-group-item">Flash Messenger</a>
+                <a href="/flash-messenger" class="list-group-item selected">Flash Messenger</a>
                 <a href="/orm" class="list-group-item">Crater ORM</a>
                 <a href="/cli" class="list-group-item">Crater CLI</a>
                 <a href="/console" class="list-group-item">Console</a>
@@ -50,58 +50,41 @@
         <div class="col-md-10">
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
-                <h1 id="directory-structure">Framework Directory Structure</h1>
-<pre class="prettyprint linenums">
-&lt;project folder&gt;/
-    App/
-        Config/
-            global.php
-            local.php
-        Controllers/
-        Data/
-            Migrations/
-            errorlog.html
-        Language/
-        Models/
-            Row/
-            Table/
-        Templates/
-        Views/
-            error/
-        Bootstrap.php
-        cli
-    Core/
-    public/
-        static/
-            images/
-            css/
-            js/
-        .htaccess
-        index.php
-    scripts/
-</pre>
-                <p>The following describes the use cases for each directory as listed.</p>
+                <h1 id="overview">Flash Messenger</h1>
+                <p>The Flash Messenger is a plugin designed to create and retrieve self-expiring,
+                    session-based messages</p>
+                <h3>How to use</h3>
+                <p>There are several types of messages:</p>
                 <ul>
-                    <li><b>Config/</b>: The application-wide configuration directory.</li>
-                    <li><b>Controllers/, Models/ and Views/</b>: These directories serve
-                        as the default controller, model or view directories.</li>
-                    <li><b>Data/</b>: This directory provides a place to store application data
-                        that (possibly temporary). Examples of things
-                        in this directory are session files, cache files, sqlite databases,
-                        logs and indexes. Also here is <b>Migrations\</b> folder that contains
-                        information about the database schema.</li>
-                    <li><b>errorlog.html</b>: Log file</li>
-                    <li><b>Language/</b>: This directory contains language folders/files</li>
-                    <li><b>Templates/</b>: This directory contains all application layouts. The location of
-                        this directory reflects that layouts are not on a 1-to-1 relationship
-                        with controllers and are independent of templates within Views/.</li>
-                    <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
-                    <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here,
-                        you will declare the application routes.</li>
-                    <li><b>cli</b>: Crater CLI (Command Line Interface). It provides a number
-                        of helpful commands for your use while developing your application. </li>
-
+                    <li><b>info</b> $this->flashMessage->info($message)</li>
+                    <li><b>success</b> $this->flashMessage->success($message)</li>
+                    <li><b>warning</b> $this->flashMessage->warning($message)</li>
+                    <li><b>error</b> $this->flashMessage->error($message)</li>
                 </ul>
+                <p>Is very simple to use. In your controller you must have something like:</p>
+<pre class="prettyprint linenums">
+public function indexAction()
+{
+    // Check if request method is post
+    if ($this->isPost()) {
+        // Business logic
+
+        // Set an info flash message
+        $this->flashMessage->info('This is an info flash message!');
+    }
+
+    return $this->view->render('index/index');
+}
+</pre>
+
+                <p>In your template (or in view) you must have something like:</p>
+<pre class="prettyprint linenums">
+&#x3C;?php if ($fm = $this-&#x3E;getFlashMessage()): ?&#x3E;
+    &#x3C;div class=&#x22;flash-message &#x3C;?php echo $fm[&#x27;type&#x27;] ?&#x3E;&#x22;&#x3E;
+        &#x3C;p&#x3E;&#x3C;strong&#x3E;&#x3C;?php echo ucfirst($fm[&#x27;type&#x27;]) ?&#x3E;:&#x3C;/strong&#x3E; &#x3C;?php echo $fm[&#x27;message&#x27;] ?&#x3E;&#x3C;/p&#x3E;
+    &#x3C;/div&#x3E;
+&#x3C;?php endif ?&#x3E;
+</pre>
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>
         </div>

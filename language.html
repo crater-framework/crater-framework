@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Crater PHP Framework - User Guide - Directory Structure</title>
+    <title>Crater PHP Framework - User Guide - Languages</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content="Crater PHP Framework more about directory structure."/>
+    <meta name="description" content="Crater PHP Framework languages and internationalization feature."/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="bootstrap.min.css" media="screen">
@@ -29,7 +29,7 @@
                 <a href="/requirements" class="list-group-item">Requirements</a>
                 <a href="/install" class="list-group-item">Install</a>
                 <p class="list-group-item active">The Basics</p>
-                <a href="/directory-structure" class="list-group-item selected">Directory Structure</a>
+                <a href="/directory-structure" class="list-group-item">Directory Structure</a>
                 <a href="/config" class="list-group-item">Config</a>
                 <a href="/routes" class="list-group-item">Routes</a>
                 <a href="/controllers" class="list-group-item">Controllers</a>
@@ -40,7 +40,7 @@
                 <a href="/orm" class="list-group-item">Crater ORM</a>
                 <a href="/cli" class="list-group-item">Crater CLI</a>
                 <a href="/console" class="list-group-item">Console</a>
-                <a href="/language" class="list-group-item">Languages</a>
+                <a href="/language" class="list-group-item selected">Languages</a>
                 <a href="/errors" class="list-group-item">Errors</a>
                 <p class="list-group-item active">Helpers</p>
                 <a href="/sessions" class="list-group-item">Sessions</a>
@@ -50,59 +50,64 @@
         <div class="col-md-10">
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
-                <h1 id="directory-structure">Framework Directory Structure</h1>
+                <h1 id="overview">Languages</h1>
+                <p>The 'Languages' helper is used for internationalization.<br>
+                    It is very easy to use. All strings are stored in an array file</p>
+                <h3>How to use</h3>
+                <p>First of all, you need to change <b>language_code</b> line in your config file for default language:</p>
 <pre class="prettyprint linenums">
-&lt;project folder&gt;/
-    App/
-        Config/
-            global.php
-            local.php
-        Controllers/
-        Data/
-            Migrations/
-            errorlog.html
-        Language/
-        Models/
-            Row/
-            Table/
-        Templates/
-        Views/
-            error/
-        Bootstrap.php
-        cli
-    Core/
-    public/
-        static/
-            images/
-            css/
-            js/
-        .htaccess
-        index.php
-    scripts/
+return array(
+    'language_code' => 'en',
+    [...]
+);
 </pre>
-                <p>The following describes the use cases for each directory as listed.</p>
-                <ul>
-                    <li><b>Config/</b>: The application-wide configuration directory.</li>
-                    <li><b>Controllers/, Models/ and Views/</b>: These directories serve
-                        as the default controller, model or view directories.</li>
-                    <li><b>Data/</b>: This directory provides a place to store application data
-                        that (possibly temporary). Examples of things
-                        in this directory are session files, cache files, sqlite databases,
-                        logs and indexes. Also here is <b>Migrations\</b> folder that contains
-                        information about the database schema.</li>
-                    <li><b>errorlog.html</b>: Log file</li>
-                    <li><b>Language/</b>: This directory contains language folders/files</li>
-                    <li><b>Templates/</b>: This directory contains all application layouts. The location of
-                        this directory reflects that layouts are not on a 1-to-1 relationship
-                        with controllers and are independent of templates within Views/.</li>
-                    <li><b>Core/</b>: Core directory that contains all framework libraries. Not to you :)</li>
-                    <li><b>Bootstrap.php</b>: This file is the entry point for your application. Here,
-                        you will declare the application routes.</li>
-                    <li><b>cli</b>: Crater CLI (Command Line Interface). It provides a number
-                        of helpful commands for your use while developing your application. </li>
 
-                </ul>
+                <p>In your controller, you must specify what is name of your language.
+                    A good option is to write the language loader in constructor:</p>
+<pre class="prettyprint linenums">
+public function __construct()
+{
+    parent::__construct();
+    $this->language->load('hello', Session::get('language'));
+
+    // Or
+    $this->language->load('hello', 'en');
+}
+</pre>
+                <h3>Translate your string</h3>
+                <p>In your controller action you can use the following syntax:</p>
+
+<pre class="prettyprint linenums">
+$viewVariables = array(
+    'title' => $this->language->get('hello_title'),
+    'message' => $this->language->get('hello_message'),
+);
+</pre>
+                <h3>How looks the language files</h3>
+                <p>All language files would need to stay in <b>/App/Languages/[language_code]/[key].php</b> folder.<br>
+                    For the example above, the url is /App/Language/en/hello.php</p>
+                <p>The file's contents will be something like:</p>
+<pre class="prettyprint linenums">
+return array(
+    'hello_title' => 'Hello',
+    'hello_message' => 'This is hello message!'
+);
+</pre>
+                <p>Sure, for another language will need to have a new file.
+                    For example if you want to have french language, you will need to create /App/Language/fr/hello.php</p>
                 <a href="#top" class="go-on-top">&uarr;</a>
+
+                <h3>How to change the current language</h3>
+                <p>For a dynamic change, you'll need to use <a href="/sessions">sessions</a>. For example:</p>
+<pre class="prettyprint linenums">
+public function setLanguageAction()
+{
+    $code = $this->getParam('code');
+
+    Session::set('language', $code);
+    $this->redirect('/');
+}
+</pre>
             </div>
         </div>
     </div>
@@ -116,4 +121,3 @@
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>
-
