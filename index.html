@@ -13,13 +13,24 @@
         <link rel="icon" href="favicon.ico" type="image/x-icon">
     </head>
     <body  onload="prettyPrint()">
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ro_RO/sdk.js#xfbml=1&version=v2.3&appId=466134290138602";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
         <div class="container-fluid">
+            <div class="fb-like" data-href="https://www.facebook.com/pages/Crater-PHP-Framework/1578853132386162"
+                 data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
             <a href="/" class="header-link">
                 <div class="header" id="top">
                     <h1>Crater PHP Framework</h1>
                     <h2><i>fast, lightweight and modular</i></h2>
                 </div>
             </a>
+
             <div class="row">
                 <div class="col-md-2">
                     <div class="list-group">
@@ -57,7 +68,13 @@
                         <br>It offers a robust, high performance MVC implementation,
                             an ORM that is simple to use, a migration tool, a CLI tool and other useful helpers.</p>
 
-
+                        <h3>Support</h3>
+                        <p>If you have any questions about Crater PHP Framework, you can post below</p>
+                        <div class="fb-mess">
+                            <div class="fb-comments"
+                                 data-href="https://www.facebook.com/pages/Crater-PHP-Framework/1578853132386162"
+                                 data-numposts="15" data-colorscheme="light" data-width="100%"></div>
+                        </div>
                         <a href="#top" class="go-on-top">&uarr;</a>
                     </div>
                 </div>
