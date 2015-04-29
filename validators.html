@@ -51,8 +51,63 @@
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
                 <h1 id="overview">Validators</h1>
-                <p>Hmm ... coming soon</p>
+                <p>Crater PHP Framework comes with a standard set of validators, which are ready for you to use.</p>
+                <h3>Types of validations</h3>
+                <p>You have the following validators:</p>
+                <ul>
+                    <li>date</li>
+                    <li>amount</li>
+                    <li>number</li>
+                    <li>alfanum</li>
+                    <li>not_empty</li>
+                    <li>words</li>
+                    <li>phone</li>
+                    <li>zipcode</li>
+                    <li>plate</li>
+                    <li>price</li>
+                    <li>2digitopt</li>
+                    <li>2digitforce</li>
+                    <li>anything</li>
+                </ul>
+                <h3>How to use</h3>
+                <p>The constructor of the validation class has 3 parameters:</p>
+<pre class="prettyprint">
+$validator = new \Core\Helpers\Validator($validation, $required, $sanatation);
+</pre>
+                <p>All parameters are array.</p>
+                <h3>Examples</h3>
+<pre class="prettyprint linenums">
+$validations = array(
+    'name' => 'anything',
+    'email' => 'email',
+    'alias' => 'anything',
+    'pwd'=>'anything',
+    'gsm' => 'phone',
+    'birthdate' => 'date'
+);
 
+$required = array('name', 'email', 'alias', 'pwd');
+$sanatation = array('alias');
+
+$validator = new \Core\Helpers\Validator($validations, $required, $sanatation);
+
+if ($validator->validate($this->getPost())) {
+    $correctsData = $validator->getData();
+} else {
+    $errors = $validator->getErrors();
+}
+</pre>
+                <h3>Static methods</h3>
+                <p>Also, validator class has two static methods for <b>validate</b> and <b>sanitize</b>
+                    for single validate/sanatize</p>
+<pre class="prettyprint linenums">
+$var = 'crater@domain.com';
+$type = 'email';
+
+$isValid = \Core\Helpers\Validator::validateItem($var, $type);
+
+$sanitize = \Core\Helpers\Validator::sanatizeItem($var, $type)
+</pre>
 
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>

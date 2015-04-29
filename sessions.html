@@ -51,9 +51,41 @@
             <div class="content">
                 <a href="https://github.com/crater-framework" class="contribute"></a>
                 <h1 id="overview">Sessions</h1>
-                <p>Hmm ... coming soon</p>
+                <p>The session is a static class, this means it can be used in any controller or model without
+                    needing to be instantiated. <br>
+                    The advantages of using a session class is all sessions are prefixed using the parameter
+                    <b>session_prefix</b> from the configuration file, this avoid sessions clashing
+                    with other applications on the same domain.
+                </p>
+                <h3>How to use</h3>
+                <p>Setting a session, call Session then ::set pass in the session name followed by its value</p>
+<pre class="prettyprint">
+\Core\Helpers\Session::set('username', 'crater');
+</pre>
+                <p>To retrieve an existing session use the get method:</p>
+<pre class="prettyprint">
+\Core\Helpers\Session::get('username');
+</pre>
+                <p>Pull an existing session key and remove it, use the pull method:</p>
 
+<pre class="prettyprint">
+\Core\Helpers\Session::pull('username');
+</pre>
+                <p>Use id to return the session id:</p>
 
+<pre class="prettyprint">
+\Core\Helpers\Session::id();
+</pre>
+                <p>Destroy a session key by calling:</p>
+
+<pre class="prettyprint">
+\Core\Helpers\Session::destroy('username');
+</pre>
+
+                <p>To look inside the sessions array, call the display method:</p>
+<pre class="prettyprint">
+var_dump(\Core\Helpers\Session::display());
+</pre>
                 <a href="#top" class="go-on-top">&uarr;</a>
             </div>
         </div>
